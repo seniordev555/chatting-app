@@ -1,25 +1,19 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "airbnb-base",
-  ],
-  "parserOptions": {
-    "ecmaVersion": 8,
-    "sourceType": "module"
+  "rules": {
+    "no-console": 0,
+    "no-underscore-dangle": 0,
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "no-use-before-define": ["error", { "variables": false }],
+    "no-multi-str": 0
   },
   "env": {
     "node": true,
     "mocha": true
   },
-  "plugins": [
-    "import"
-  ],
-  "rules": {
-     "no-console": 0,
-     "no-underscore-dangle" : 0,
-     "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
-     "no-use-before-define": ["error", { "variables": false }],
-     "max-len": [1, 120, 4],
-     "import/prefer-default-export": 0
-  }
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "extends": [
+    "airbnb-base"
+  ]
 }
