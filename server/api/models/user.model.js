@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import moment from 'moment-timezone';
-import httpStatus from 'http-status';
-import config from '../../config';
-import APIError from '../utils/APIError';
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const moment = require('moment-timezone');
+const httpStatus = require('http-status');
+const config = require('../../config');
+const APIError = require('../utils/APIError');
 
 const roles = ['user', 'admin'];
 
@@ -124,5 +124,4 @@ userSchema.statics = {
   },
 };
 
-const User = mongoose.model('User', userSchema);
-export default User;
+module.exports = mongoose.model('User', userSchema);

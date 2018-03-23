@@ -1,16 +1,16 @@
-import express from 'express';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import compress from 'compression';
-import methodOverride from 'method-override';
-import helmet from 'helmet';
-import cors from 'cors';
-import passport from 'passport';
-import strategies from './passport';
-import config from './index';
-import routes from '../api/routes/v1';
-import error from '../api/middlewares/error';
+const express = require('express');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const compress = require('compression');
+const methodOverride = require('method-override');
+const helmet = require('helmet');
+const cors = require('cors');
+const passport = require('passport');
+const strategies = require('./passport');
+const config = require('./index');
+const routes = require('../api/routes/v1');
+const error = require('../api/middlewares/error');
 
 const app = express();
 
@@ -36,4 +36,4 @@ app.use(error.converter);
 app.use(error.notFound);
 app.use(error.handler);
 
-export default app;
+module.exports = app;

@@ -1,8 +1,8 @@
-import httpStatus from 'http-status';
-import moment from 'moment-timezone';
-import User from '../models/user.model';
-import RefreshToken from '../models/refreshToken.model';
-import config from '../../config';
+const httpStatus = require('http-status');
+const moment = require('moment-timezone');
+const User = require('../models/user.model');
+const RefreshToken = require('../models/refreshToken.model');
+const config = require('../../config');
 
 const generateTokenResponse = (user, accessToken) => {
   const tokenType = 'Bearer';
@@ -13,7 +13,7 @@ const generateTokenResponse = (user, accessToken) => {
   };
 };
 
-const register = async (req, res, next) => {
+exports.register = async (req, res, next) => {
   try {
     const user = await (new User(req.body)).save();
     const userTransformed = user.transform();
@@ -25,7 +25,7 @@ const register = async (req, res, next) => {
   }
 };
 
-const login = async (req, res, next) => {
+exports.login = async (req, res, next) => {
   try {
     const { user, accessToken } = await User.findAndGenerateToken(req.body);
     const token = generateTokenResponse(user, accessToken);
@@ -36,7 +36,7 @@ const login = async (req, res, next) => {
   }
 };
 
-const refresh = async (req, res, next) => {
+exports.refresh = async (req, res, next) => {
   try {
     const { email, refreshToken } = req.body;
     const refreshObject = await RefreshToken.findOneAndRemove({
@@ -49,10 +49,4 @@ const refresh = async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
-};
-
-export default {
-  login,
-  register,
-  refresh,
 };

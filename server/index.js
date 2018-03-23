@@ -1,6 +1,6 @@
-import config from './config';
-import app from './config/express';
-import mongoose from './config/mongoose';
+const config = require('./config'),
+  app = require('./config/express'),
+  mongoose = require('./config/mongoose');
 
 mongoose.connect();
 
@@ -13,4 +13,4 @@ app.listen(config.port, config.host, () => {
   console.log('--');
 });
 
-export default app;
+module.exports = app;

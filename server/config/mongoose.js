@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import config from './index';
+const mongoose = require('mongoose');
+const config = require('./index');
 
 Promise = require('bluebird'); // eslint-disable-line no-global-assign
 
