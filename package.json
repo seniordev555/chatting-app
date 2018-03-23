@@ -4,8 +4,9 @@
   "description": "Simple chatting app built by Node.js, React.js, Socket.io",
   "main": "index.js",
   "scripts": {
-    "start": "node -r dotenv/config index.js",
-    "start:server": "nodemon ./index.js --exec \"node -r dotenv/config\"",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "nodemon ./index.js --exec \"node -r dotenv/config\"",
+    "dev:client": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,6 +31,7 @@
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "compression": "^1.7.2",
+    "concurrently": "^3.5.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "cross-env": "^5.1.4",
