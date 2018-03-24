@@ -3,7 +3,7 @@ import Register from '../components/Register';
 import { registerUser } from '../modules/actions';
 
 export default connect(
-  (state) => ({ ...state.register }),
+  ({ register }) => ({ ...register }),
   (dispatch) => ({
     registerUser: (form) => dispatch(registerUser(form)),
   }),
