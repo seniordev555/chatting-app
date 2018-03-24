@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^4.0.0-beta.3",
     "history": "^4.7.2",
     "node-sass-chokidar": "^1.2.0",
@@ -20,6 +21,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
   },
+  "proxy": "http://0.0.0.0:5000",
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/index.scss -o src",
     "start-js": "react-scripts start",

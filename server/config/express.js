@@ -30,7 +30,7 @@ app.use(cors());
 app.use(passport.initialize());
 passport.use('jwt', strategies.jwt);
 
-app.use('/v1', routes);
+app.use('/api/v1', routes);
 
 app.use(error.converter);
 app.use(error.notFound);

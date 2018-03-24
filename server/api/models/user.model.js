@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     maxlength: 128,
   },
-  name: {
+  username: {
     type: String,
     maxlength: 128,
     index: true,
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-userSchema.pre('save', async (next) => {
+userSchema.pre('save', async function(next) {
   try {
     if (!this.isModified('password')) return next();
 
@@ -58,7 +58,7 @@ userSchema.pre('save', async (next) => {
 userSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'name', 'email', 'picture', 'role', 'createdAt'];
+    const fields = ['id', 'username', 'email', 'picture', 'role', 'createdAt'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
@@ -69,7 +69,7 @@ userSchema.method({
 
   token() {
     const payload = {
-      exp: moment().add(config.jwtExpirationInterval, 'minutes').unix(),
+      // exp: moment().add(config.jwtExpirationInterval, 'minutes').unix(),
       iat: moment().unix(),
       sub: this._id,
     };
@@ -94,10 +94,13 @@ userSchema.statics = {
       isPublic: true,
     };
     if (password) {
-      if (user && await user.passwordMatches(password)) {
+      if (!user) {
+        err.message = 'Unregistered email';
+      } else if (!await user.passwordMatches(password)) {
+        err.message = 'Incorrect password';
+      } else {
         return { user, accessToken: user.token() };
       }
-      err.message = 'Incorrect email or password';
     } else if (refreshObject && refreshObject.userEmail === email) {
       return { user, accessToken: user.token() };
     } else {
@@ -107,9 +110,9 @@ userSchema.statics = {
   },
 
   checkDuplicateEmail(error) {
-    if (error.name === 'MongoError' && error.code === 11000) {
+    if (error.name === 'BulkWriteError' && error.code === 11000) {
       return new APIError({
-        message: 'Validation Error',
+        message: 'Email already exists',
         errors: [{
           field: 'email',
           location: 'body',
