@@ -21,7 +21,7 @@ const auth = (state = initialState, action) => {
       return { ...state, loading: false, error: action.error };
 
     case LOGOUT_SUCCESS:
-      return { ...state, loading: true, isAuthenticated: false };
+      return { ...state, loading: false, isAuthenticated: false };
 
     default:
       return state;

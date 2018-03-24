@@ -1,5 +1,6 @@
 import { toastr } from 'react-redux-toastr';
 import { push } from 'react-router-redux';
+import { reset } from 'redux-form';
 import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -13,6 +14,7 @@ export const registerUser = (form) => {
     try {
       await anonymousRequest('post', '/auth/register', { body: form });
       dispatch({ type: REGISTER_SUCCESS });
+      dispatch(reset('registerForm'));
       dispatch(push('/login'));
       toastr.success('User registered successfully');
     } catch (error) {

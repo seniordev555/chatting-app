@@ -2,7 +2,7 @@ import React from 'react';
 
 const Dashboard = () => (
   <div>
-    Dashboard
+    Welcome to Chatting App!
   </div>
 );
 

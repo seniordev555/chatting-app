@@ -1,5 +1,6 @@
 import { toastr } from 'react-redux-toastr';
 import { push } from 'react-router-redux';
+import { reset } from 'redux-form';
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -14,6 +15,7 @@ export const loginUser = (form) => {
       const response = await anonymousRequest('post', '/auth/login', { body: form });
       localStorage.setItem('chatting_app_token', JSON.stringify(response.data.token));
       dispatch({ type: LOGIN_SUCCESS });
+      dispatch(reset('loginForm'));
       dispatch(push('/'));
       toastr.success(`Welcome ${response.data.user.username}!`);
     } catch (error) {
