@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     maxlength: 128,
+    unique: true,
     index: true,
     trim: true,
   },
@@ -112,12 +113,8 @@ userSchema.statics = {
   checkDuplicateEmail(error) {
     if (error.name === 'BulkWriteError' && error.code === 11000) {
       return new APIError({
-        message: 'Email already exists',
-        errors: [{
-          field: 'email',
-          location: 'body',
-          messages: ['"email" already exists'],
-        }],
+        message: 'Email or username already exists',
+        errors: [],
         status: httpStatus.CONFLICT,
         isPublic: true,
         stack: error.stack,
