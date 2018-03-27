@@ -70,7 +70,7 @@ userSchema.method({
 
   token() {
     const payload = {
-      // exp: moment().add(config.jwtExpirationInterval, 'minutes').unix(),
+      exp: moment().add(config.jwtExpirationInterval, 'minutes').unix(),
       iat: moment().unix(),
       sub: this._id,
     };

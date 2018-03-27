@@ -14,6 +14,7 @@ export const loginUser = (form) => {
     try {
       const response = await anonymousRequest('post', '/auth/login', { body: form });
       localStorage.setItem('chatting_app_token', JSON.stringify(response.data.token));
+      localStorage.setItem('chatting_app_user_email', response.data.user.email);
       dispatch({ type: LOGIN_SUCCESS });
       dispatch(reset('loginForm'));
       dispatch(push('/'));
