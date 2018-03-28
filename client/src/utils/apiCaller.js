@@ -15,7 +15,17 @@ export const anonymousRequest = (method, path, options = {}) => {
   return axios(config);
 };
 
-export const authorizedRequest = (method, path, options = {}) => {
+const newAccessToken = async (email, refreshToken) => {
+  try {
+    const response = await anonymousRequest('post', '/auth/refresh-token', { body: { email, refreshToken } });
+    localStorage.setItem('chatting_app_token', JSON.stringify(response.data));
+    return response.data.accessToken;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const authorizedRequest = async (method, path, options = {}) => {
   const config = {
     method,
     url: baseUrl + path,
@@ -28,10 +38,11 @@ export const authorizedRequest = (method, path, options = {}) => {
   const userEmail = localStorage.getItem('chatting_app_user_email');
   if (token && userEmail) {
     token = JSON.parse(token);
+    let { accessToken } = token;
     if (moment(token.expiresIn) < moment()) {
-      // TODO: Call REFRESH API
+      accessToken = await newAccessToken(userEmail, token.refreshToken);
     }
-    config.headers.Authorization = `${token.tokenType} ${token.accessToken}`;
+    config.headers.Authorization = `${token.tokenType} ${accessToken}`;
   }
   return axios(config);
 };
