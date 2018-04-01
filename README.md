@@ -55,6 +55,9 @@ And you can access the frontend by visiting [http://localhost:3000](http://local
 ### Register
 ![image](https://user-images.githubusercontent.com/17595822/37867541-c425dbce-2fa2-11e8-9ffb-ea5443856e1a.png)
 
+### Main Chat
+![image](https://user-images.githubusercontent.com/17595822/38169216-1c0e0e4a-356d-11e8-84e6-c4586acbd71e.png)
+
 ## References
 
 * [create-react-app](https://github.com/facebookincubator/create-react-app)
