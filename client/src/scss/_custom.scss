@@ -104,4 +104,23 @@ body {
       }
     }
   }
+
+  .channel-chat-message-divider {
+    display: flex;
+    justify-content: center;
+
+    &__line {
+      height: 1px;
+      background-color: #a4b7c1;
+      width: 100%;
+      position: absolute;
+      margin-top: 11px;
+    }
+
+    &__date {
+      background-color: white;
+      z-index: 1;
+      padding: 0 10px;
+    }
+  }
 }

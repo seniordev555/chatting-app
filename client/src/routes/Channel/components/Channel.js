@@ -41,28 +41,43 @@ class Channel extends React.Component {
 
     let messages = [];
     if (channel.messages) {
-      messages = channel.messages.map((message) => (
-        <div key={message.id} className="channel-chat-message-item">
-          <div className="chat-message-item">
-            <div className="chat-message-item__header">
-              <div className="chat-message-item__sender">{message.author.username}</div>
-              <div className="chat-message-item__timestamp">
-                {`${moment(message.createdAt).format('YYYY-MM-DD h:mm A')}`}
+      let prevDate = '';
+      channel.messages.map((message) => {
+        if (prevDate !== moment(message.createdAt).format('dddd, MMMM Do')) {
+          prevDate = moment(message.createdAt).format('dddd, MMMM Do');
+          messages.push(
+            <div key={prevDate} className="channel-chat-message-divider">
+              <div className="channel-chat-message-divider__line">
+              </div>
+              <div className="channel-chat-message-divider__date">
+                {prevDate}
               </div>
             </div>
-            <div className="chat-message-item__content">
-              <div className="chat-message-item__gutter">
-                <div className="chat-message-item__timestamp text-secondary">
-                  {`${moment(message.createdAt).format('h:mm A')}`}
+          );
+        }
+        messages.push(
+          <div key={message.id} className="channel-chat-message-item">
+            <div className="chat-message-item">
+              <div className="chat-message-item__header">
+                <div className="chat-message-item__sender">{message.author.username}</div>
+                <div className="chat-message-item__timestamp">
+                  {`${moment(message.createdAt).format('YYYY-MM-DD h:mm A')}`}
                 </div>
               </div>
-              <div className="chat-message-item__body">
-                {message.body}
+              <div className="chat-message-item__content">
+                <div className="chat-message-item__gutter">
+                  <div className="chat-message-item__timestamp text-secondary">
+                    {`${moment(message.createdAt).format('h:mm A')}`}
+                  </div>
+                </div>
+                <div className="chat-message-item__body">
+                  {message.body}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))
+        )
+      });
     }
 
     return (
