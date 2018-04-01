@@ -1,13 +1,12 @@
 import React from 'react';
 import { Switch, Route, } from 'react-router-dom';
-import { Container } from 'reactstrap';
 
 import Header from './Header';
 import Sidebar from './Sidebar';
-import Aside from './Aside';
 import Footer from './Footer';
 
 import Dashboard from '../../../routes/Dashboard';
+import Channel from '../../../routes/Channel';
 
 class PrivateApp extends React.Component {
   componentDidMount() {
@@ -25,15 +24,13 @@ class PrivateApp extends React.Component {
       <div className="app">
         <Header user={currentUser} logout={this.props.logoutUser} />
         <div className="app-body">
-          <Sidebar {...this.props}/>
+          <Sidebar {...this.props} />
           <main className="main">
-            <Container fluid>
-              <Switch>
-                <Route exact path="/" name="Dashboard" component={Dashboard}/>
-              </Switch>
-            </Container>
+            <Switch>
+              <Route exact path="/" component={Dashboard} />
+              <Route exact path="/messages/:channelId" component={Channel} />
+            </Switch>
           </main>
-          <Aside />
         </div>
         <Footer />
       </div>

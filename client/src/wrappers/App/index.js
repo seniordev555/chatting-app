@@ -16,7 +16,7 @@ const App = () => (
     <Switch>
       <GuestRoute exact path="/login" name="Login" component={Login} />
       <GuestRoute exact path="/register" name="Register" component={Register} />
-      <PrivateRoute exact path="/" name="Home" component={PrivateApp} />
+      <PrivateRoute path="/" component={PrivateApp} />
       <Redirect from="*" to="/login" />
     </Switch>
     <ReduxToastr

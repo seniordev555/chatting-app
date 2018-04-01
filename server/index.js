@@ -1,10 +1,11 @@
-const config = require('./config'),
-  app = require('./config/express'),
-  mongoose = require('./config/mongoose');
+const config = require('./config');
+const app = require('./config/express');
+const mongoose = require('./config/mongoose');
+const server = require('http').createServer(app);
 
 mongoose.connect();
 
-app.listen(config.port, config.host, () => {
+server.listen(config.port, config.host, () => {
   console.log('--');
   console.info('Chatting App');
   console.log();
@@ -12,5 +13,7 @@ app.listen(config.port, config.host, () => {
   console.info(`Server:            ${config.host}:${config.port}`);
   console.log('--');
 });
+
+require('./api/sockets').initSocket(app, server);
 
 module.exports = app;

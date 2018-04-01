@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const moment = require('moment-timezone');
 const User = require('../models/user.model');
 const RefreshToken = require('../models/refreshToken.model');
+const Channel = require('../models/channel.model');
 const config = require('../../config');
 
 const generateTokenResponse = (user, accessToken) => {
@@ -16,6 +17,7 @@ const generateTokenResponse = (user, accessToken) => {
 exports.register = async (req, res, next) => {
   try {
     const user = await (new User(req.body)).save();
+    await Channel.joinMainChannel(user);
     const userTransformed = user.transform();
     const token = generateTokenResponse(user, user.token());
     res.status(httpStatus.CREATED);

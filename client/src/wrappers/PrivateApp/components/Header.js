@@ -22,11 +22,6 @@ class Header extends Component {
     document.body.classList.toggle('sidebar-mobile-show');
   }
 
-  asideToggle(e) {
-    e.preventDefault();
-    document.body.classList.toggle('aside-menu-hidden');
-  }
-
   render() {
     const { user } = this.props;
 
@@ -39,12 +34,9 @@ class Header extends Component {
         <NavbarToggler className="d-md-down-none" onClick={this.sidebarToggle}>
           <span className="navbar-toggler-icon"></span>
         </NavbarToggler>
-        <Nav className="ml-auto" navbar>
+        <Nav className="ml-auto mr-2" navbar>
           <HeaderDropdown user={user} logout={this.props.logout}/>
         </Nav>
-        <NavbarToggler className="d-md-down-none" onClick={this.asideToggle}>
-          <span className="navbar-toggler-icon"></span>
-        </NavbarToggler>
       </header>
     );
   }

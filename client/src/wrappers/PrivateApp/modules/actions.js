@@ -1,4 +1,5 @@
 import { toastr } from 'react-redux-toastr';
+import { push } from 'react-router-redux';
 import {
   APP_USER_REQUEST,
   APP_USER_SUCCESS,
@@ -12,7 +13,10 @@ export const loadProfile = () => {
     dispatch({ type: APP_USER_REQUEST });
     try {
       const response = await authorizedRequest('get', '/users/profile');
-      dispatch({ type: APP_USER_SUCCESS, payload: response.data });
+      const channelsResponse = await authorizedRequest('get', '/channels');
+      const generalChannel = channelsResponse.data.find((channel) => channel.name === 'general');
+      dispatch({ type: APP_USER_SUCCESS, payload: { user: response.data, channels: channelsResponse.data } });
+      dispatch(push(`/messages/${generalChannel.id}`));
     } catch (error) {
       dispatch(logoutUser());
     }
