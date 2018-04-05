@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import ReduxToastr from 'react-redux-toastr';
-import { Switch, Redirect } from 'react-router-dom';
+import { Switch, Redirect, Route } from 'react-router-dom';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 
 import GuestRoute from '../../route-helpers/GuestRoute';
@@ -8,6 +8,8 @@ import PrivateRoute from '../../route-helpers/PrivateRoute';
 
 import Login from '../../routes/Login';
 import Register from '../../routes/Register';
+import Dashboard from '../../routes/Dashboard';
+import WorkspaceList from '../../routes/WorkspaceList';
 
 import PrivateApp from '../PrivateApp';
 
@@ -16,7 +18,8 @@ const App = () => (
     <Switch>
       <GuestRoute exact path="/login" name="Login" component={Login} />
       <GuestRoute exact path="/register" name="Register" component={Register} />
-      <PrivateRoute path="/" component={PrivateApp} />
+      <Route exact path="/" component={Dashboard} />
+      <Route exact path="/workspaces" component={WorkspaceList} />
       <Redirect from="*" to="/login" />
     </Switch>
     <ReduxToastr

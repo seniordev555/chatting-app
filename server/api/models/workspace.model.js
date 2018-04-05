@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const httpStatus = require('http-status');
+const APIError = require('../utils/APIError');
 const Schema = mongoose.Schema;
 
 const workspaceSchema = new Schema({
@@ -6,6 +8,7 @@ const workspaceSchema = new Schema({
     type: String,
     trim: true,
     required: true,
+    unique: true,
   },
   displayName: {
     type: String,
@@ -34,6 +37,18 @@ workspaceSchema.method({
 });
 
 workspaceSchema.statics = {
+  checkDuplicateName(error) {
+    if (error.name === 'BulkWriteError' && error.code === 11000) {
+      return new APIError({
+        message: 'Full name already exists',
+        errors: [],
+        status: httpStatus.CONFLICT,
+        isPublic: true,
+        stack: error.stack,
+      });
+    }
+    return error;
+  },
 };
 
 module.exports = mongoose.model('Workspace', workspaceSchema);

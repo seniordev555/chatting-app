@@ -5,7 +5,6 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 
-import Dashboard from '../../../routes/Dashboard';
 import Channel from '../../../routes/Channel';
 
 class PrivateApp extends React.Component {
@@ -27,7 +26,6 @@ class PrivateApp extends React.Component {
           <Sidebar {...this.props} />
           <main className="main">
             <Switch>
-              <Route exact path="/" component={Dashboard} />
               <Route exact path="/messages/:channelId" component={Channel} />
             </Switch>
           </main>

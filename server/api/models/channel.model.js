@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const moment = require('moment-timezone');
 const httpStatus = require('http-status');
-const config = require('../../config');
 const APIError = require('../utils/APIError');
 
 const Schema = mongoose.Schema;
@@ -33,6 +31,11 @@ const channelSchema = new Schema({
   },
   members: {
     type: [Schema.ObjectId],
+  },
+  workspace: {
+    type: Schema.ObjectId,
+    ref: 'Workspace',
+    required: true,
   },
 }, {
   timestamps: true,
@@ -86,6 +89,28 @@ channelSchema.statics = {
       throw error;
     }
   },
+
+  async createMainChannel(workspace) {
+    const channel = await this.findOne({
+      workspace: workspace._id, private: false, direct: false,
+    }).exec();
+    if (channel) {
+      return channel;
+    }
+    const { admin } = workspace;
+    if (!admin) throw new APIError({ message: 'An admin is required to create a channel' });
+
+    const channelObject = new Channel({
+      name: 'general',
+      purpose: 'Public main channel',
+      creator: admin,
+      members: [admin],
+      workspace: workspace._id,
+    });
+    channelObject.save();
+    return channelObject;
+  },
 };
 
-module.exports = mongoose.model('Channel', channelSchema);
+const Channel = mongoose.model('Channel', channelSchema);
+module.exports = Channel;

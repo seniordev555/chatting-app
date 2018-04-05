@@ -42,7 +42,7 @@ class Channel extends React.Component {
     let messages = [];
     if (channel.messages) {
       let prevDate = '';
-      channel.messages.map((message) => {
+      channel.messages.forEach((message) => {
         if (prevDate !== moment(message.createdAt).format('dddd, MMMM Do')) {
           prevDate = moment(message.createdAt).format('dddd, MMMM Do');
           messages.push(

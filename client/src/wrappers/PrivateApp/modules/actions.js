@@ -14,9 +14,15 @@ export const loadProfile = () => {
     try {
       const response = await authorizedRequest('get', '/users/profile');
       const channelsResponse = await authorizedRequest('get', '/channels');
-      const generalChannel = channelsResponse.data.find((channel) => channel.name === 'general');
-      dispatch({ type: APP_USER_SUCCESS, payload: { user: response.data, channels: channelsResponse.data } });
-      dispatch(push(`/messages/${generalChannel.id}`));
+      const generalChannel = channelsResponse.data.find(channel => channel.name === 'general');
+      dispatch({
+        type: APP_USER_SUCCESS,
+        payload: {
+          user: response.data,
+          channels: channelsResponse.data,
+        },
+      });
+      // dispatch(push(`/messages/${generalChannel.id}`));
     } catch (error) {
       dispatch(logoutUser());
     }
