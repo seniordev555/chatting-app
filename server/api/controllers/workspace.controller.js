@@ -16,6 +16,16 @@ exports.load = async (req, res, next, id) => {
   }
 };
 
+exports.loadByName = async (req, res, next, name) => {
+  try {
+    const workspace = await Workspace.getByName(name);
+    req.locals = { workspace };
+    return next();
+  } catch (error) {
+    return errorHandler(error, req, res);
+  }
+};
+
 exports.list = async (req, res, next) => {
   try {
     const workspaces = await Workspace.find();
@@ -28,21 +38,23 @@ exports.list = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   try {
+    const workspaceParams = _.pick(req.body, ['fullName', 'displayName']);
+    workspaceParams.displayName = slug(workspaceParams.displayName);
+    const workspace = await (new Workspace(workspaceParams)).save();
     const userParams = {
       email: req.body.adminEmail,
       password: req.body.adminPassword,
       username: req.body.adminEmail.substr(0, req.body.adminEmail.indexOf('@')),
       role: 'admin',
+      workspace: workspace._id,
     };
     const admin = await (new User(userParams)).save();
-    const workspaceParams = _.pick(req.body, ['fullName', 'displayName']);
-    workspaceParams.admin = admin._id;
-    workspaceParams.displayName = slug(workspaceParams.displayName);
-    const workspace = await (new Workspace(workspaceParams)).save();
-    Channel.createMainChannel(workspace);
+    Channel.createMainChannel(workspace._id, admin._id);
     res.status(httpStatus.CREATED);
     return res.json(workspace);
   } catch (error) {
     return next(Workspace.checkDuplicateName(error));
   }
 };
+
+exports.getByName = (req, res) => res.json(req.locals.workspace.transform());

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { renderInput } from '../../../components/form';
 import { registerFormValidate } from '../../../helpers/validates';
 
-const Register = ({ submitting, loading, handleSubmit }) => (
+const Register = ({ submitting, loading, handleSubmit, workspace }) => (
   <div className="app flex-row align-items-center">
     <Container>
       <Row className="justify-content-center">
@@ -27,7 +27,7 @@ const Register = ({ submitting, loading, handleSubmit }) => (
               <Field name="confirmPassword" type="password" label="Confirm Password" component={renderInput} />
               <div className="d-flex justify-content-between align-items-center">
                 <Button color="success" disabled={submitting || loading} onClick={handleSubmit}>Create Account</Button>
-                <Link to="/login" disabled={submitting || loading}>Already have an account?</Link>
+                <Link to={`/${workspace.displayName}/login`} disabled={submitting || loading}>Already have an account?</Link>
               </div>
             </CardBody>
           </Card>

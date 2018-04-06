@@ -3,7 +3,7 @@ import Register from '../components/Register';
 import { registerUser } from '../modules/actions';
 
 export default connect(
-  ({ register }) => ({ ...register }),
+  ({ register, workspaceApp: { workspace } }) => ({ ...register, workspace }),
   (dispatch) => ({
     registerUser: (form) => dispatch(registerUser(form)),
   }),

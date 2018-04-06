@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const moment = require('moment-timezone');
 const User = require('../models/user.model');
 const RefreshToken = require('../models/refreshToken.model');
+const Workspace = require('../models/workspace.model');
 const Channel = require('../models/channel.model');
 const config = require('../../config');
 
@@ -16,8 +17,10 @@ const generateTokenResponse = (user, accessToken) => {
 
 exports.register = async (req, res, next) => {
   try {
+    const workspaceId = req.body.workspace;
+    const workspace = await Workspace.findById(workspaceId).exec();
     const user = await (new User(req.body)).save();
-    await Channel.joinMainChannel(user);
+    await Channel.joinMainChannel(workspace._id, user);
     const userTransformed = user.transform();
     const token = generateTokenResponse(user, user.token());
     res.status(httpStatus.CREATED);
@@ -29,7 +32,9 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const { user, accessToken } = await User.findAndGenerateToken(req.body);
+    const workspaceId = req.body.workspace;
+    const workspace = await Workspace.findById(workspaceId).exec();
+    const { user, accessToken } = await User.findAndGenerateToken(workspace._id, req.body);
     const token = generateTokenResponse(user, accessToken);
     const userTransformed = user.transform();
     return res.json({ token, user: userTransformed });

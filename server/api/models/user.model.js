@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  workspace: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Workspace',
+    required: true,
+  },
 }, {
   timestamps: true,
 });
@@ -59,7 +64,7 @@ userSchema.pre('save', async function(next) {
 userSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'username', 'email', 'picture', 'role', 'createdAt'];
+    const fields = ['id', 'username', 'email', 'picture', 'role', 'createdAt', 'workspace'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
@@ -85,11 +90,11 @@ userSchema.method({
 userSchema.statics = {
   roles,
 
-  async findAndGenerateToken(options) {
+  async findAndGenerateToken(workspace, options) {
     const { email, password, refreshObject } = options;
     if (!email) throw new APIError({ message: 'An email is required to generate a token' });
 
-    const user = await this.findOne({ email }).exec();
+    const user = await this.findOne({ email, workspace }).exec();
     const err = {
       status: httpStatus.UNAUTHORIZED,
       isPublic: true,
@@ -121,6 +126,26 @@ userSchema.statics = {
       });
     }
     return error;
+  },
+
+  async get(id) {
+    try {
+      let user;
+
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        user = await this.findById(id).exec();
+      }
+      if (user) {
+        return user;
+      }
+
+      throw new APIError({
+        message: 'User does not exist',
+        status: httpStatus.NOT_FOUND,
+      });
+    } catch (error) {
+      throw error;
+    }
   },
 };
 

@@ -1,36 +1,20 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
 import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Button,
+  Container, Row, Col, Alert,
   TabContent, TabPane, Nav, NavItem, NavLink,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import { renderInput } from '../../../components/form';
-import WorkspaceList from './WorkspaceList';
+import { Link } from 'react-router-dom';
 import WorkspaceForm from './WorkspaceForm';
 import { WORKSPACE_LIST_TAB_LIST, WORKSPACE_LIST_TAB_CREATE } from '../modules';
 
-class Workspace extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+class WorkspaceList extends React.Component {
   componentDidMount() {
     this.props.getWorkspaceListRequest();
   }
 
   render() {
     const { loading, createWorkspace, activeTab, changeTab, workspaces, creating, createError } = this.props;
-
-    if (loading) {
-      return <div>Loading...</div>;
-    }
 
     return (
       <div className="app flex-row align-items-center">
@@ -57,7 +41,28 @@ class Workspace extends React.Component {
               </Nav>
               <TabContent activeTab={activeTab}>
                 <TabPane tabId={WORKSPACE_LIST_TAB_LIST}>
-                  <WorkspaceList workspaces={workspaces} loading={loading} />
+                  { loading && <div>Loading...</div>}
+                  { !loading && workspaces && workspaces.length === 0 &&
+                    <Alert color="info">There is no workspace. Please create a new one</Alert>
+                  }
+                  { !loading && workspaces && workspaces.length > 0 &&
+                    <ul className="list-group">
+                      {workspaces.map(workspace =>
+                        <li key={workspace.id} className="justify-content-between list-group-item">
+                          <Row>
+                            <Col>
+                              {workspace.fullName}
+                            </Col>
+                            <Col>
+                              <Link to={`/${workspace.displayName}`}>
+                                {`${process.env.REACT_APP_HOST}/${workspace.displayName}`}
+                              </Link>
+                            </Col>
+                          </Row>
+                        </li>
+                      )}
+                    </ul>
+                  }
                 </TabPane>
                 <TabPane tabId={WORKSPACE_LIST_TAB_CREATE}>
                   <WorkspaceForm createWorkspace={createWorkspace} loading={creating} error={createError} />
@@ -71,4 +76,4 @@ class Workspace extends React.Component {
   }
 };
 
-export default Workspace;
+export default WorkspaceList;

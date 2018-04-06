@@ -55,11 +55,11 @@ channelSchema.method({
 });
 
 channelSchema.statics = {
-  async joinMainChannel(user) {
+  async joinMainChannel(workspace, user) {
     const { _id } = user;
     if (!_id) throw new APIError({ message: 'An user is required to join a channel' });
 
-    const channel = await this.findOne({ name: 'general' }).exec();
+    const channel = await this.findOne({ workspace, private: false, direct: false }).sort({ createdAt: -1 }).exec();
     if (channel.members.indexOf(_id) === -1) {
       channel.members.push(_id);
     }
@@ -90,14 +90,13 @@ channelSchema.statics = {
     }
   },
 
-  async createMainChannel(workspace) {
+  async createMainChannel(workspace, admin) {
     const channel = await this.findOne({
-      workspace: workspace._id, private: false, direct: false,
+      workspace, private: false, direct: false,
     }).exec();
     if (channel) {
       return channel;
     }
-    const { admin } = workspace;
     if (!admin) throw new APIError({ message: 'An admin is required to create a channel' });
 
     const channelObject = new Channel({
@@ -105,7 +104,7 @@ channelSchema.statics = {
       purpose: 'Public main channel',
       creator: admin,
       members: [admin],
-      workspace: workspace._id,
+      workspace: workspace,
     });
     channelObject.save();
     return channelObject;

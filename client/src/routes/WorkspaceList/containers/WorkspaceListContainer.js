@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Workspace from '../components/Workspace';
+import WorkspaceList from '../components/WorkspaceList';
 import {
   getWorkspaceListRequest,
   createWorkspaceRequest,
@@ -7,10 +7,10 @@ import {
 } from '../modules/actions';
 
 export default connect(
-  ({ workspace }) => ({ ...workspace }),
+  ({ workspaceList }) => ({ ...workspaceList }),
   dispatch => ({
     getWorkspaceListRequest: () => dispatch(getWorkspaceListRequest()),
     createWorkspace: values => dispatch(createWorkspaceRequest(values)),
     changeTab: tab => dispatch(changeTab(tab)),
   }),
-)(Workspace);
+)(WorkspaceList);

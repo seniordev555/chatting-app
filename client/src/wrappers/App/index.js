@@ -9,15 +9,16 @@ import PrivateRoute from '../../route-helpers/PrivateRoute';
 import Login from '../../routes/Login';
 import Register from '../../routes/Register';
 import Dashboard from '../../routes/Dashboard';
-import Workspace from '../../routes/Workspace';
+import WorkspaceList from '../../routes/WorkspaceList';
 
-// import PrivateApp from '../PrivateApp';
+import WorkspaceApp from '../WorkspaceApp';
 
 const App = () => (
   <Fragment>
     <Switch>
-      <Route exact path="/" component={Workspace} />
-      <Route exact paht="/:workspaceName" component={Login} />
+      <Route exact path="/" component={WorkspaceList} />
+      <Route path="/:workspaceName" component={WorkspaceApp} />
+
     </Switch>
     <ReduxToastr
       timeOut={3000}

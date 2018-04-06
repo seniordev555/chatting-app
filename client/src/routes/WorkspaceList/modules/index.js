@@ -18,7 +18,7 @@ const initialState = {
   activeTab: WORKSPACE_LIST_TAB_LIST,
 };
 
-const workspace = (state = initialState, action) => {
+const workspaceList = (state = initialState, action) => {
   switch(action.type) {
     case WORKSPACE_LIST_GET_REQUEST:
       return { ...state, loading: true, error: null };
@@ -46,4 +46,4 @@ const workspace = (state = initialState, action) => {
   }
 };
 
-export default workspace;
+export default workspaceList;

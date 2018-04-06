@@ -1,9 +1,11 @@
 import { all } from 'redux-saga/effects';
 
-import workspace from '../routes/Workspace/modules/sagas';
+import workspaceList from '../routes/WorkspaceList/modules/sagas';
+import workspaceApp from '../wrappers/WorkspaceApp/modules/sagas';
 
 export default function* rootSaga() {
   yield all([
-    workspace(),
+    workspaceList(),
+    workspaceApp(),
   ]);
 }

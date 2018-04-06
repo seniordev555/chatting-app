@@ -36,7 +36,7 @@ function* createWorkspace(action) {
   }
 }
 
-export default function* watchWorkspace() {
+export default function* watchWorkspaceList() {
   yield all([
     yield takeEvery(WORKSPACE_LIST_GET_REQUEST, fetchWorkspaceList),
     yield takeEvery(WORKSPACE_CREATE_REQUEST, createWorkspace),

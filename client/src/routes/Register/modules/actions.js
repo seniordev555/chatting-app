@@ -9,13 +9,15 @@ import {
 import { anonymousRequest } from '../../../utils/apiCaller';
 
 export const registerUser = (form) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { workspaceApp: { workspace } } = getState();
     dispatch({ type: REGISTER_REQUEST });
     try {
-      await anonymousRequest('post', '/auth/register', { body: form });
+      const body = { ...form, workspace: workspace.id };
+      await anonymousRequest('post', '/auth/register', { body });
       dispatch({ type: REGISTER_SUCCESS });
       dispatch(reset('registerForm'));
-      dispatch(push('/login'));
+      dispatch(push(`/${workspace.displayName}/login`));
       toastr.success('User registered successfully');
     } catch (error) {
       dispatch({

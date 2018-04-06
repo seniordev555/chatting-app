@@ -13,11 +13,7 @@ const workspaceSchema = new Schema({
   displayName: {
     type: String,
     trim: true,
-  },
-  admin: {
-    type: Schema.ObjectId,
-    ref: 'User',
-    required: true,
+    unique: true,
   },
 }, {
   timestamps: true,
@@ -26,7 +22,7 @@ const workspaceSchema = new Schema({
 workspaceSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'fullName', 'displayName', 'admin', 'createdAt'];
+    const fields = ['id', 'fullName', 'displayName', 'createdAt'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
@@ -49,6 +45,42 @@ workspaceSchema.statics = {
       });
     }
     return error;
+  },
+
+  async get(id) {
+    try {
+      let workspace;
+
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        workspace = await this.findById(id).exec();
+      }
+      if (workspace) {
+        return workspace;
+      }
+
+      throw new APIError({
+        message: 'Workspace does not exist',
+        status: httpStatus.NOT_FOUND,
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getByName(name) {
+    try {
+      const workspace = await this.findOne({ displayName: name }).exec();
+      if (workspace) {
+        return workspace;
+      }
+
+      throw new APIError({
+        message: 'Workspace does not exist',
+        status: httpStatus.NOT_FOUND,
+      });
+    } catch (error) {
+      throw error;
+    }
   },
 };
 
