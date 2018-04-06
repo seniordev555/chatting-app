@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const httpStatus = require('http-status');
+const slug = require('slug');
 const User = require('../models/user.model');
 const Channel = require('../models/channel.model');
 const Workspace = require('../models/workspace.model');
@@ -17,7 +18,7 @@ exports.load = async (req, res, next, id) => {
 
 exports.list = async (req, res, next) => {
   try {
-    const workspaces = await Workspace.list(req.user);
+    const workspaces = await Workspace.find();
     const transformedWorkspaces = workspaces.map(workspace => workspace.transform());
     res.json(transformedWorkspaces);
   } catch (error) {
@@ -36,10 +37,11 @@ exports.create = async (req, res, next) => {
     const admin = await (new User(userParams)).save();
     const workspaceParams = _.pick(req.body, ['fullName', 'displayName']);
     workspaceParams.admin = admin._id;
+    workspaceParams.displayName = slug(workspaceParams.displayName);
     const workspace = await (new Workspace(workspaceParams)).save();
     Channel.createMainChannel(workspace);
     res.status(httpStatus.CREATED);
-    return res.json({ workspace });
+    return res.json(workspace);
   } catch (error) {
     return next(Workspace.checkDuplicateName(error));
   }

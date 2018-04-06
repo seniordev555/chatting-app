@@ -34,3 +34,30 @@ export const registerFormValidate = (values) => {
   }
   return errors;
 };
+
+export const workspaceFormValidate = (values) => {
+  const errors = {};
+  if (!values.adminEmail) {
+    errors.adminEmail = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.adminEmail)) {
+    errors.adminEmail = 'Invalid email address';
+  }
+  if (!values.adminPassword) {
+    errors.adminPassword = 'Required';
+  } else if (values.adminPassword.length < 6) {
+    errors.adminPassword = 'Length should be greater than 5';
+  }
+  if (!values.adminPasswordConfirm) {
+    errors.adminPasswordConfirm = 'Required';
+  }
+  if (!!values.adminPassword && !!values.adminPasswordConfirm && values.adminPassword !== values.adminPasswordConfirm) {
+    errors.adminPasswordConfirm = 'Password does not match';
+  }
+  if (!values.fullName) {
+    errors.fullName = 'Required';
+  }
+  if (!values.displayName) {
+    errors.displayName = 'Required';
+  }
+  return errors;
+};

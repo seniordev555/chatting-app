@@ -38,6 +38,7 @@ workspaceSchema.method({
 
 workspaceSchema.statics = {
   checkDuplicateName(error) {
+    console.log(error);
     if (error.name === 'BulkWriteError' && error.code === 11000) {
       return new APIError({
         message: 'Full name already exists',

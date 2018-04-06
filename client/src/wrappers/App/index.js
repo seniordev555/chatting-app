@@ -9,18 +9,15 @@ import PrivateRoute from '../../route-helpers/PrivateRoute';
 import Login from '../../routes/Login';
 import Register from '../../routes/Register';
 import Dashboard from '../../routes/Dashboard';
-import WorkspaceList from '../../routes/WorkspaceList';
+import Workspace from '../../routes/Workspace';
 
-import PrivateApp from '../PrivateApp';
+// import PrivateApp from '../PrivateApp';
 
 const App = () => (
   <Fragment>
     <Switch>
-      <GuestRoute exact path="/login" name="Login" component={Login} />
-      <GuestRoute exact path="/register" name="Register" component={Register} />
-      <Route exact path="/" component={Dashboard} />
-      <Route exact path="/workspaces" component={WorkspaceList} />
-      <Redirect from="*" to="/login" />
+      <Route exact path="/" component={Workspace} />
+      <Route exact paht="/:workspaceName" component={Login} />
     </Switch>
     <ReduxToastr
       timeOut={3000}
