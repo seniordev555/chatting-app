@@ -21,4 +21,10 @@ module.exports = {
       refreshToken: Joi.string().required(),
     },
   },
+
+  confirm: {
+    body: {
+      email: Joi.string().email().required(),
+    },
+  },
 };

@@ -14,4 +14,7 @@ router.route('/login')
 router.route('/refresh-token')
   .post(expressValidate(validation.refresh), controller.refresh);
 
+router.route('/confirm')
+  .post(expressValidate(validation.confirm), controller.confirm);
+
 module.exports = router;

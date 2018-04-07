@@ -5,9 +5,13 @@ export const WORKSPACE_CREATE_REQUEST = 'WORKSPACE_CREATE_REQUEST';
 export const WORKSPACE_CREATE_SUCCESS = 'WORKSPACE_CREATE_SUCCESS';
 export const WORKSPACE_CREATE_ERROR = 'WORKSPACE_CREATE_ERROR';
 export const WORKSPACE_LIST_CHANGE_TAB = 'WORKSPACE_LIST_CHANGE_TAB';
+export const WORKSPACE_CONFIRM_EMAIL_REQUEST = 'WORKSPACE_CONFIRM_EMAIL_REQUEST';
+export const WORKSPACE_CONFIRM_EMAIL_SUCCESS = 'WORKSPACE_CONFIRM_EMAIL_SUCCESS';
+export const WORKSPACE_CONFIRM_EMAIL_ERROR = 'WORKSPACE_CONFIRM_EMAIL_ERROR';
 
 export const WORKSPACE_LIST_TAB_LIST = 'WORKSPACE_LIST_TAB_LIST';
 export const WORKSPACE_LIST_TAB_CREATE = 'WORKSPACE_LIST_TAB_CREATE';
+export const WORKSPACE_LIST_TAB_CONFIRM = 'WORKSPACE_LIST_TAB_CONFIRM';
 
 const initialState = {
   loading: true,
@@ -16,6 +20,8 @@ const initialState = {
   creating: false,
   createError: null,
   activeTab: WORKSPACE_LIST_TAB_LIST,
+  confirming: false,
+  confirmed: false,
 };
 
 const workspaceList = (state = initialState, action) => {
@@ -40,6 +46,15 @@ const workspaceList = (state = initialState, action) => {
 
     case WORKSPACE_LIST_CHANGE_TAB:
       return { ...state, activeTab: action.payload };
+
+    case WORKSPACE_CONFIRM_EMAIL_REQUEST:
+      return { ...state, confirming: false, confirmed: false };
+
+    case WORKSPACE_CONFIRM_EMAIL_SUCCESS:
+      return { ...state, confirming: false, confirmed: true };
+
+    case WORKSPACE_CONFIRM_EMAIL_ERROR:
+      return { ...state, confirming: false, error: action.error };
 
     default:
       return state;

@@ -6,7 +6,8 @@ import {
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import WorkspaceForm from './WorkspaceForm';
-import { WORKSPACE_LIST_TAB_LIST, WORKSPACE_LIST_TAB_CREATE } from '../modules';
+import ConfirmEmailForm from './ConfirmEmailForm';
+import { WORKSPACE_LIST_TAB_LIST, WORKSPACE_LIST_TAB_CREATE, WORKSPACE_LIST_TAB_CONFIRM } from '../modules';
 
 class WorkspaceList extends React.Component {
   componentDidMount() {
@@ -14,7 +15,7 @@ class WorkspaceList extends React.Component {
   }
 
   render() {
-    const { loading, createWorkspace, activeTab, changeTab, workspaces, creating, createError } = this.props;
+    const { loading, createWorkspace, activeTab, changeTab, workspaces, creating, createError, confirmEmailRequest, confirming, confirmed, } = this.props;
 
     return (
       <div className="app flex-row align-items-center">
@@ -36,6 +37,14 @@ class WorkspaceList extends React.Component {
                     onClick={() => { changeTab(WORKSPACE_LIST_TAB_CREATE); }}
                   >
                     Create Workspace
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({ active: activeTab === WORKSPACE_LIST_TAB_CONFIRM })}
+                    onClick={() => { changeTab(WORKSPACE_LIST_TAB_CONFIRM); }}
+                  >
+                    Confirm email
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -66,6 +75,9 @@ class WorkspaceList extends React.Component {
                 </TabPane>
                 <TabPane tabId={WORKSPACE_LIST_TAB_CREATE}>
                   <WorkspaceForm createWorkspace={createWorkspace} loading={creating} error={createError} />
+                </TabPane>
+                <TabPane tabId={WORKSPACE_LIST_TAB_CONFIRM}>
+                  <ConfirmEmailForm confirmEmailRequest={confirmEmailRequest} confirmed={confirmed} confirming={confirming} />
                 </TabPane>
               </TabContent>
             </Col>

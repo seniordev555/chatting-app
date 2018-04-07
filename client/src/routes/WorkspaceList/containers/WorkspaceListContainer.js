@@ -4,6 +4,7 @@ import {
   getWorkspaceListRequest,
   createWorkspaceRequest,
   changeTab,
+  confirmEmailRequest,
 } from '../modules/actions';
 
 export default connect(
@@ -12,5 +13,6 @@ export default connect(
     getWorkspaceListRequest: () => dispatch(getWorkspaceListRequest()),
     createWorkspace: values => dispatch(createWorkspaceRequest(values)),
     changeTab: tab => dispatch(changeTab(tab)),
+    confirmEmailRequest: values => dispatch(confirmEmailRequest(values)),
   }),
 )(WorkspaceList);
