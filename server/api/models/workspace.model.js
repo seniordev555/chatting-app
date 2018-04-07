@@ -37,7 +37,7 @@ workspaceSchema.statics = {
     console.log(error);
     if (error.name === 'BulkWriteError' && error.code === 11000) {
       return new APIError({
-        message: 'Full name already exists',
+        message: 'Workspace already exists',
         errors: [],
         status: httpStatus.CONFLICT,
         isPublic: true,

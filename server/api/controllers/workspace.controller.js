@@ -37,10 +37,15 @@ exports.list = async (req, res, next) => {
 };
 
 exports.create = async (req, res, next) => {
+  let workspace;
   try {
     const workspaceParams = _.pick(req.body, ['fullName', 'displayName']);
     workspaceParams.displayName = slug(workspaceParams.displayName);
-    const workspace = await (new Workspace(workspaceParams)).save();
+    workspace = await (new Workspace(workspaceParams)).save();
+  } catch (error) {
+    return next(Workspace.checkDuplicateName(error));
+  }
+  try {
     const userParams = {
       email: req.body.adminEmail,
       password: req.body.adminPassword,
@@ -53,7 +58,7 @@ exports.create = async (req, res, next) => {
     res.status(httpStatus.CREATED);
     return res.json(workspace);
   } catch (error) {
-    return next(Workspace.checkDuplicateName(error));
+    return next(User.checkDuplicateEmail(error));
   }
 };
 

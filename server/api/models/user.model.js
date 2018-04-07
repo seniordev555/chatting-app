@@ -42,7 +42,6 @@ const userSchema = new mongoose.Schema({
   workspace: {
     type: mongoose.Schema.ObjectId,
     ref: 'Workspace',
-    required: true,
   },
 }, {
   timestamps: true,
