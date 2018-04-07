@@ -17,6 +17,7 @@ const Register = ({ submitting, loading, handleSubmit, workspace }) => (
     <Container>
       <Row className="justify-content-center">
         <Col md="6">
+          <h1 className="text-center">Workspace # {workspace.fullName}</h1>
           <Card className="mx-4">
             <CardBody className="p-4">
               <h1>Register</h1>

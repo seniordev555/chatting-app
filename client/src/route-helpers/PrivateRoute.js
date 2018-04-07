@@ -5,19 +5,22 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+const PrivateRoute = ({ component: Component, isAuthenticated, workspace, ...rest }) => (
   <Route
     {...rest}
     render={props => (
-      isAuthenticated
-        ? <Component {...props} />
-        : <Redirect to="/login" />
+      !!workspace
+        ?
+          isAuthenticated ? <Component {...props} /> : <Redirect to={`${workspace.displayName}/login`} />
+        :
+          <Redirect to="/" />
     )}
   />
 );
 
-const mapStateToProps = ({ auth }) => ({
-  isAuthenticated: auth.isAuthenticated,
+const mapStateToProps = ({ auth: { isAuthenticated }, workspaceApp: { workspace } }) => ({
+  isAuthenticated,
+  workspace,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

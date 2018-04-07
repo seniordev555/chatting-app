@@ -13,7 +13,7 @@ class PrivateApp extends React.Component {
   }
 
   render() {
-    const { loading, currentUser } = this.props;
+    const { loading, currentUser, workspace } = this.props;
 
     if(loading) {
       return <div>loading...</div>
@@ -26,7 +26,7 @@ class PrivateApp extends React.Component {
           <Sidebar {...this.props} />
           <main className="main">
             <Switch>
-              <Route exact path="/messages/:channelId" component={Channel} />
+              <Route exact path={`/${workspace.displayName}/messages/:channelId`} component={Channel} />
             </Switch>
           </main>
         </div>

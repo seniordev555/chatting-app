@@ -20,13 +20,13 @@ class Login extends React.Component {
 
   render() {
     const { submitting, loading, handleSubmit, workspace } = this.props;
-    console.log(this.props);
 
     return (
       <div className="app flex-row align-items-center">
         <Container>
           <Row className="justify-content-center">
             <Col md="8">
+              <h1 className="text-center">Workspace # {workspace.fullName}</h1>
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>

@@ -6,6 +6,7 @@ class Sidebar extends Component {
   render() {
     const channels = this.props.channels.filter((c) => !c.direct);
     const dms = this.props.channels.filter((c) => c.direct);
+    const workspace = this.props.workspace;
 
     return (
       <div className="sidebar">
@@ -16,7 +17,7 @@ class Sidebar extends Component {
               channels.map((channel) => {
                 return (
                   <NavItem key={channel.id}>
-                    <NavLink to={`/messages/${channel.id}`} className="nav-link" activeClassName="active">
+                    <NavLink to={`/${workspace.displayName}/messages/${channel.id}`} className="nav-link" activeClassName="active">
                       # {channel.name}
                     </NavLink>
                   </NavItem>
@@ -28,7 +29,7 @@ class Sidebar extends Component {
               dms.map((channel) => {
                 return (
                   <NavItem key={channel.id}>
-                    <NavLink to={`/messages/${channel.id}`} className="nav-link" activeClassName="active">
+                    <NavLink to={`/${workspace.displayName}/messages/${channel.id}`} className="nav-link" activeClassName="active">
                       <i className="fa fa-circle"></i>{channel.name}
                     </NavLink>
                   </NavItem>

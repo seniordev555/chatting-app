@@ -3,6 +3,10 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Login from '../../../routes/Login';
 import Register from '../../../routes/Register'
+import PrivateApp from '../../PrivateApp';
+
+import GuestRoute from '../../../route-helpers/GuestRoute';
+import PrivateRoute from '../../../route-helpers/PrivateRoute';
 
 class WorkspaceApp extends React.Component {
   constructor(props) {
@@ -27,8 +31,9 @@ class WorkspaceApp extends React.Component {
 
     return (
       <Switch>
-        <Route path={`${path}/login`} component={Login} />
-        <Route path={`${path}/register`} component={Register} />
+        <GuestRoute path={`${path}/login`} component={Login} />
+        <GuestRoute path={`${path}/register`} component={Register} />
+        <PrivateRoute path={`${path}`} component={PrivateApp} />
       </Switch>
     );
   }

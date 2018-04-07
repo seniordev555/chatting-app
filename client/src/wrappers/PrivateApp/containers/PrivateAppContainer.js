@@ -3,8 +3,8 @@ import PrivateApp from '../components/PrivateApp';
 import { loadProfile, logoutUser } from '../modules/actions';
 
 export default connect(
-  ({ app }) => ({ ...app }),
-  (dispatch) => ({
+  ({ app, workspaceApp: { workspace } }) => ({ ...app, workspace }),
+  dispatch => ({
     loadProfile: () => dispatch(loadProfile()),
     logoutUser: () => dispatch(logoutUser()),
   }),
